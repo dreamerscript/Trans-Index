@@ -1,0 +1,51 @@
+{
+  "_comment": "Keys must match names you assigned in COUNTRY_NAMES in map.js. Values: yes | partial | no | illegal(delete) | unknown | undetermined(any)",
+
+  "Spain": {
+    "sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "yes",
+    "nonbinary":    "partial",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "yes",
+    "prison":       "yes",
+    "military":     "yes",
+    "marriage":     "yes",
+    "adopt":        "yes",
+    "note": "Some autonomous communities in Spain offer non-binary gender markers for registration purposes (within their autonomic competences)."
+  },
+
+  "France": {
+    "sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "partial",
+    "nonbinary":    "no",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "yes",
+    "prison":       "partial",
+    "military":     "yes",
+    "marriage":     "yes",
+    "adopt":        "yes",
+    "note": "The applicant must demonstrate their claim for legal gender recognition. Minors can not change their legal gender marker. The placement of individuals in prisons is dependant on the legal gender marker."
+  },
+
+  "Egypt": {
+    "sentenced":    "partial",
+    "mental":       "yes",
+    "legal_name":   "no",
+    "legal_gender": "no",
+    "nonbinary":    "no",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "no",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "While there is no explicit law that criminalizes being transgender, there has been reports of transgender indivualds being criminalized by using broad anti-prostitution and public order laws."
+  }
+}

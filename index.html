@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trans Rights Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Trans Rights Map</h1>
+    <span>click a country · drag to pan · scroll to zoom</span>
+    <div class="legend" id="legend"></div>
+  </header>
+  <div class="main">
+    <div id="map-container">
+      <div class="tooltip" id="tooltip"></div>
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="zoom-in">+</button>
+        <button class="zoom-btn" id="zoom-out">−</button>
+        <button class="zoom-btn" id="zoom-reset">↺</button>
+      </div>
+    </div>
+    <div id="panel">
+      <div id="panel-header">
+        <div id="panel-country">Select a country</div>
+        <div id="panel-sub">Click on the map</div>
+      </div>
+      <div id="panel-body">
+        <div id="panel-empty">
+          <div class="arrow">↑</div>
+          <p>Select any country<br>on the map to see<br>trans rights data.</p>
+        </div>
+        <div id="panel-rights" style="display:none"></div>
+      </div>
+      <div class="source-note">
+        Data compiled manually. Sources: ILGA World, TGEU, HRW.<br>
+        <a href="https://ilga.org" target="_blank">ilga.org</a> · <a href="https://tgeu.org" target="_blank">tgeu.org</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="rights.js"></script>
+<script src="map.js"></script>
+</body>
+</html>
