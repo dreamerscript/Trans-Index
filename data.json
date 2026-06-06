@@ -122,7 +122,7 @@
     "note": "Transgender individuals may be criminalized under the country's LGBT propaganda laws."
   },
   "Saudi Arabia": {
-	"sentenced":    "illegal",
+	"sentenced":    "yes",
     "mental":       "yes",
     "legal_name":   "no",
     "legal_gender": "no",
@@ -242,7 +242,7 @@
     "note": ""
   },
   "North Korea": {
-	"sentenced":    "illegal",
+	"sentenced":    "yes",
     "mental":       "unknown",
     "legal_name":   "unknown",
     "legal_gender": "unknown",
@@ -270,5 +270,35 @@
     "marriage":     "yes",
     "adopt":        "partial",
     "note": ""
+  },
+  "Kazakhstan": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "partial",
+    "legal_gender": "partial",
+    "nonbinary":    "no",
+    "hrt":          "partial",
+    "surgery":      "partial",
+    "minors":       "no",
+    "prison":       "unknown",
+    "military":     "yes",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "Changing legal indicators or gaining access to gender affirming care comes with exhaustive examination including HRT, sex reassignment surgery, forced sterilisation and exhaustive psychological evaluation."
+  },
+  "Netherlands": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "yes",
+    "nonbinary":    "partial",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "yes",
+    "prison":       "yes",
+    "military":     "yes",
+    "marriage":     "yes",
+    "adopt":        "yes",
+    "note": "An X legal gender marker can be obtained, but it must be requested through a court order."
   }
 }
