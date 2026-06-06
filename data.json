@@ -1,5 +1,5 @@
 {
-  "_comment": "Keys must match names you assigned in COUNTRY_NAMES in map.js. Values: yes | partial | no | illegal(delete) | unknown | undetermined(any)",
+  "_comment": "VARIABLES: yes|no|partial|death|unknown. Any other will result in a yellow undetermined",
 
   "Spain": {
     "sentenced":    "no",
