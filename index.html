@@ -3,52 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trans Rights Map</title>
+  <title>Trans Index</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="app">
-  <header>
-    <h1>Trans Rights Map</h1>
+
+<header>
+
+  <div class="brand-block">
+    <h1>transindex.org</h1>
     <span>click a country · drag to pan · scroll to zoom</span>
-  </header>
-  <div class="main">
-    <div id="map-container">
-      <div class="tooltip" id="tooltip"></div>
-      <div class="zoom-controls">
-        <button class="zoom-btn" id="zoom-in">+</button>
-        <button class="zoom-btn" id="zoom-out">−</button>
-        <button class="zoom-btn" id="zoom-reset">↺</button>
-      </div>
-    </div>
-    <div id="panel">
-      <div id="panel-header">
-        <div id="panel-country">Select a country</div>
-        <div id="panel-sub">Click on the map</div>
-      </div>
-      <div id="panel-body">
-        <div id="panel-empty">
-          <div class="arrow">↑</div>
-          <p>Select any country<br>on the map to see<br>trans rights data.</p>
-        </div>
-        <div id="panel-rights" style="display:none"></div>
-      </div>
-      <div class="source-note">
-        Sources: <a href="https://en.wikipedia.org/wiki/LGBTQ_rights_by_country_or_territory" target="_blank">Wikipedia — LGBTQ rights by country</a>,
-        <a href="https://database.ilga.org" target="_blank">ILGA World</a>,
-        <a href="https://tgeu.org" target="_blank">TGEU</a>,
-        <a href="https://www.equaldex.com/" target="_blank">Equaldex</a>,
-        <a href="https://github.com/topojson/world-atlas" target="_blank">world-atlas</a>.<br>
-        <span class="disclaimer">Data compiled manually and may be incomplete or out of date.</span>
-      </div>
-    </div>
   </div>
+
+  <div class="search-zone">
+    <label class="control search-control" for="country-search">
+      <span>Search</span>
+
+      <div class="field-shell">
+        <input id="country-search" type="search" placeholder="Find a country" autocomplete="off" aria-controls="country-suggestions" aria-expanded="false">
+
+        <button class="clear-field" id="clear-search" type="button" aria-label="Clear search">
+          ×
+        </button>
+      </div>
+    </label>
+
+    <div id="country-suggestions" class="suggestion-list" role="listbox" aria-label="Country suggestions"></div>
+  </div>
+
+  <div class="header-controls" aria-label="Map controls">
+
+    <label class="control question-control" for="question-filter">
+      <span>Question</span>
+
+      <div class="field-shell">
+        <select id="question-filter">
+          <option value="all">All questions</option>
+        </select>
+
+        <button class="clear-field" id="clear-question" type="button" aria-label="Clear question filter">
+          ×
+        </button>
+      </div>
+    </label>
+
+    <label class="control status-control" for="status-filter">
+      <span>Status</span>
+
+      <select id="status-filter" disabled>
+        <option value="all">Any status</option>
+        <option value="yes">Yes</option>
+        <option value="partial">Partial / varies</option>
+        <option value="no">No</option>
+        <option value="death_penalty">Death penalty</option>
+        <option value="unknown">No data</option>
+      </select>
+    </label>
+
+  </div>
+
+</header>
+
+<div class="main">
+
+  <div id="map-container">
+
+    <button class="map-clear-btn" id="clear-map" type="button">
+      Clear
+    </button>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <div id="map-legend" aria-live="polite"></div>
+
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoom-in" aria-label="Zoom in">+</button>
+      <button class="zoom-btn" id="zoom-out" aria-label="Zoom out">−</button>
+      <button class="zoom-btn" id="zoom-reset" aria-label="Reset zoom">↺</button>
+    </div>
+
+  </div>
+
+  <div id="panel">
+
+    <div id="panel-header">
+      <div id="panel-country">Select a country</div>
+      <div id="panel-sub">Click on the map</div>
+    </div>
+
+    <div id="panel-body">
+
+      <div id="panel-empty">
+        <div class="arrow">↑</div>
+
+        <p>
+          Select any country<br>
+          on the map to see<br>
+          trans rights data.
+        </p>
+      </div>
+
+      <div id="panel-rights" style="display:none"></div>
+
+    </div>
+
+    <div class="source-note">
+      Sources:
+      <a href="https://en.wikipedia.org/wiki/LGBTQ_rights_by_country_or_territory" target="_blank" rel="noreferrer">Wikipedia — LGBTQ rights by country</a>,
+      <a href="https://database.ilga.org" target="_blank" rel="noreferrer">ILGA World</a>,
+      <a href="https://tgeu.org" target="_blank" rel="noreferrer">TGEU</a>,
+      <a href="https://www.equaldex.com/" target="_blank" rel="noreferrer">Equaldex</a>,
+      <span class="disclaimer">Data compiled manually and may be incomplete or out of date.</span>
+    </div>
+
+  </div>
+
+</div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+
 <script src="rights.js"></script>
 <script src="map.js"></script>
+
 </body>
 </html>

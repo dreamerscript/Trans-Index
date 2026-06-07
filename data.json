@@ -140,16 +140,16 @@
 	"sentenced":    "no",
     "mental":       "no",
     "legal_name":   "yes",
-    "legal_gender": "yes",
+    "legal_gender": "partial",
     "nonbinary":    "yes",
     "hrt":          "partial",
     "surgery":      "partial",
     "minors":       "no",
     "prison":       "partial",
     "military":     "no",
-    "marriage":     "no",
-    "adopt":        "no",
-    "note": "Gender affirming care is accessible, however, there is no structured public health support for it. Some regions have separate hijra/third gender prison facilities."
+    "marriage":     "partial",
+    "adopt":        "partial",
+    "note": "Changing the legal gender marker requires gender reassignment surgery except for the non-binary marker. Gender affirming care is accessible, however, there is no structured public health support for it. Some regions have separate hijra/third gender prison facilities. Marriages are exclusive to the opposite sex (listed in the legal gender marker)."
   },
   "Mongolia": {
 	"sentenced":    "no",
