@@ -9,9 +9,9 @@ const RIGHTS = [
   { key: "surgery",       question: "Can trans people get gender-affirming surgery?" },
   { key: "minors",        question: "Can trans minors access gender-affirming care?" },
   { key: "prison",        question: "Can trans people be placed in prisons matching their gender?" },
-  { key: "military",      question: "Can trans people serve in the military?" },
+  { key: "military",      question: "Can trans people serve in the military in their affirmed gender?" },
   { key: "marriage",      question: "Can trans people marry in their affirmed gender?" },
-  { key: "adopt",         question: "Can trans people adopt children?" },
+  { key: "adopt",         question: "Can trans people adopt children in their affirmed gender?" },
 ];
  
  
