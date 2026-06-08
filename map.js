@@ -70,34 +70,41 @@ const COUNTRY_NAMES = {
   "894": "Zambia",
 };
 
-// ─── HELPERS ─────────────────────────────────
+// IDs that are sub-shapes of a named country (Cyprus bases, etc.)
+// They render on the map but should behave as their parent
+const SHAPE_ALIAS = {
+  // Akrotiri and Dhekelia (UK bases on Cyprus) — show as Cyprus
+  // These have no ID in the TopoJSON so they show as undefined — handled by the undefined guard
+};
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 function normalise(val, invert) {
   if (!val || val === "unknown") return "unknown";
-  if (val === "death_penalty")   return "death";
+  if (val === "death_penalty") return "death";
   if (invert) {
-    if (val === "no")  return "good";
+    if (val === "no") return "good";
     if (val === "yes") return "bad";
     return "partial";
   }
   if (val === "yes") return "good";
-  if (val === "no")  return "bad";
+  if (val === "no") return "bad";
   return "partial";
 }
 
 function getCountryColor(name, data) {
   if (!name || !data[name]) return MAP_COLOR.empty;
-  const d      = data[name];
+  const d = data[name];
   const normed = RIGHTS.map(r => normalise(d[r.key] || "unknown", r.invert));
   if (normed.includes("death")) return MAP_COLOR.death;
-  const unk     = normed.filter(s => s === "unknown").length;
-  const good    = normed.filter(s => s === "good").length;
-  const bad     = normed.filter(s => s === "bad").length;
+  const unk = normed.filter(s => s === "unknown").length;
+  const good = normed.filter(s => s === "good").length;
+  const bad = normed.filter(s => s === "bad").length;
   const partial = normed.filter(s => s === "partial").length;
   if (unk >= good && unk >= bad && unk >= partial) return MAP_COLOR.empty;
   const known = normed.filter(s => s !== "unknown");
   if (good / known.length >= 0.5) return MAP_COLOR.yes;
-  if (bad  / known.length >= 0.5) return MAP_COLOR.no;
+  if (bad / known.length >= 0.5) return MAP_COLOR.no;
   return MAP_COLOR.partial;
 }
 
@@ -105,7 +112,6 @@ function getQuestionColor(name, data, key) {
   if (!name || !data[name]) return MAP_COLOR.empty;
   const rule = RIGHTS.find(r => r.key === key);
   if (!rule) return getCountryColor(name, data);
-
   const raw = data[name][key] || "unknown";
   const norm = normalise(raw, rule.invert);
   if (norm === "death") return MAP_COLOR.death;
@@ -115,66 +121,65 @@ function getQuestionColor(name, data, key) {
   return MAP_COLOR.empty;
 }
 
-function matchesQuestionStatus(name, data, key, status) {
-  if (key === "all" || status === "all") return true;
-  if (!name || !data[name]) return status === "unknown";
-  return (data[name][key] || "unknown") === status;
+// ─── LEGEND ───────────────────────────────────────────────────────────────────
+
+function updateLegend(questionKey) {
+  const legend = document.getElementById("map-legend");
+  const panelLegendBody = document.getElementById("panel-legend-body");
+  if (!legend && !panelLegendBody) return;
+  const isOverall = !questionKey || questionKey === "all";
+  const title = isOverall ? "Overall rights score" : RIGHTS.find(r => r.key === questionKey)?.question || "";
+  const rows = isOverall
+    ? [["var(--map-yes)","Mostly protective"],["var(--map-partial)","Mixed / partial"],["var(--map-no)","Mostly restrictive"],["var(--map-death)","Death penalty"],["var(--map-empty)","No data"]]
+    : [["var(--map-yes)","Protective"],["var(--map-partial)","Partial / varies"],["var(--map-no)","Restrictive"],["var(--map-death)","Death penalty"],["var(--map-empty)","No data"]];
+  const inner = `<div class="legend-title">${title}</div>${rows.map(([c,l])=>`<div class="legend-row"><span class="legend-swatch" style="background:${c}"></span><span>${l}</span></div>`).join("")}`;
+  if (legend) legend.innerHTML = inner;
+  if (panelLegendBody) panelLegendBody.innerHTML = inner;
 }
 
-// ─── PANEL ───────────────────────────────────
+// ─── PANEL ────────────────────────────────────────────────────────────────────
 
 function showPanel(name, data) {
-  document.getElementById("panel-country").textContent = name;
-  document.getElementById("panel-empty").style.display  = "none";
+  const panelCountry = document.getElementById("panel-country");
+  const panelSub = document.getElementById("panel-sub");
+  panelCountry.textContent = name;
+  panelCountry.classList.add("has-country");
+  document.getElementById("panel-empty").style.display = "none";
   document.getElementById("panel-rights").style.display = "block";
-
   const d = data[name];
   if (!d) {
-    document.getElementById("panel-sub").textContent = "No data on record";
-    document.getElementById("panel-rights").innerHTML =
-      `<p class="no-data-msg">No data for this country yet.<br>Add it in data.json.</p>`;
+    panelSub.style.display = "none";
+    document.getElementById("panel-rights").innerHTML = `<p class="no-data-msg">No data for this country yet.<br>Add it in data.json.</p>`;
+    if (window._openDrawer) window._openDrawer();
     return;
   }
-
-  document.getElementById("panel-sub").textContent = "Trans rights overview";
-
-  const scoreHTML = `
-    <div class="score-label">Rights at a glance</div>
-    <div class="score-bar">
-      ${RIGHTS.map(r => {
-        const norm = normalise(d[r.key] || "unknown", r.invert);
-        const col  = norm === "good"    ? "var(--yes)"
-                   : norm === "death"   ? "var(--death-color)"
-                   : norm === "bad"     ? "var(--no)"
-                   : norm === "partial" ? "var(--partial)"
-                   : "var(--unknown)";
-        return `<div class="score-segment" style="background:${col}" title="${r.question}"></div>`;
-      }).join("")}
-    </div>
-    ${d.note ? `<p class="right-note" style="margin-top:10px">${d.note}</p>` : ""}
-  `;
-
+  panelSub.style.display = "none";
+  const scoreHTML = `<div class="score-label">Rights at a glance</div><div class="score-bar">${RIGHTS.map(r => {
+    const norm = normalise(d[r.key] || "unknown", r.invert);
+    const col = norm === "good" ? "var(--yes)" : norm === "death" ? "var(--death-color)" : norm === "bad" ? "var(--no)" : norm === "partial" ? "var(--partial)" : "var(--unknown)";
+    return `<div class="score-segment" style="background:${col}" title="${r.question}"></div>`;
+  }).join("")}</div>${d.note ? `<p class="right-note" style="margin-top:10px">${d.note}</p>` : ""}`;
   const rightsHTML = RIGHTS.map(r => {
-    const val  = d[r.key] || "unknown";
+    const val = d[r.key] || "unknown";
     const norm = normalise(val, r.invert);
-    const cls  = val === "death_penalty" ? "status-death"
-               : norm === "good"         ? "status-yes"
-               : norm === "bad"          ? "status-no"
-               : norm === "partial"      ? "status-partial"
-               : "status-unknown";
-    return `<div class="right-item">
-      <div class="right-question">${r.question}</div>
-      <span class="right-status ${cls}">${STATUS_LABEL[val] || val}</span>
-    </div>`;
+    const cls = val === "death_penalty" ? "status-death" : norm === "good" ? "status-yes" : norm === "bad" ? "status-no" : norm === "partial" ? "status-partial" : "status-unknown";
+    return `<div class="right-item"><div class="right-question">${r.question}</div><span class="right-status ${cls}">${STATUS_LABEL[val] || val}</span></div>`;
   }).join("");
-
-  document.getElementById("panel-rights").innerHTML = `
-    <div style="padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:4px">${scoreHTML}</div>
-    ${rightsHTML}
-  `;
+  document.getElementById("panel-rights").innerHTML = `<div style="padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:4px">${scoreHTML}</div>${rightsHTML}`;
+  if (window._openDrawer) window._openDrawer();
 }
 
-// ─── INIT ─────────────────────────────────────
+function clearPanel() {
+  const panelCountry = document.getElementById("panel-country");
+  panelCountry.textContent = "Select a country";
+  panelCountry.classList.remove("has-country");
+  document.getElementById("panel-sub").style.display = "";
+  document.getElementById("panel-empty").style.display = "block";
+  document.getElementById("panel-rights").style.display = "none";
+  document.getElementById("panel-rights").innerHTML = "";
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
 
 async function init() {
   let countryData = {};
@@ -190,11 +195,7 @@ async function init() {
     const res = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
     world = await res.json();
   } catch(e) {
-    document.getElementById("map-container").innerHTML =
-      `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:center;padding:40px">
-        Could not load map.<br><br>Run a local server:<br>
-        <code style="font-size:11px;color:var(--text-dim);margin-top:8px;display:block">python3 -m http.server 8080</code>
-      </div>`;
+    document.getElementById("map-container").innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:center;padding:40px">Could not load map.<br><br>Run a local server:<br><code style="font-size:11px;color:var(--text-dim);margin-top:8px;display:block">python3 -m http.server 8080</code></div>`;
     return;
   }
 
@@ -202,343 +203,270 @@ async function init() {
   const W = container.clientWidth;
   const H = container.clientHeight;
 
-  const svg = d3.select("#map-container").append("svg")
-    .attr("viewBox", `0 0 ${W} ${H}`)
-    .attr("preserveAspectRatio", "xMidYMid meet");
-
-  const projection = d3.geoNaturalEarth1()
-    .scale(W / 6.5)
-    .translate([W / 2, H / 2]);
-
+  const svg = d3.select("#map-container").append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("preserveAspectRatio", "xMidYMid meet");
+  const projection = d3.geoNaturalEarth1().scale(W / 6.5).translate([W / 2, H / 2]);
   const path = d3.geoPath().projection(projection);
-  const g    = svg.append("g");
+  const g = svg.append("g");
 
-  svg.append("defs").append("clipPath")
-    .attr("id", "sphere-clip")
-    .append("path").datum({type:"Sphere"}).attr("d", path);
+  svg.append("defs").append("clipPath").attr("id", "sphere-clip").append("path").datum({type:"Sphere"}).attr("d", path);
   g.attr("clip-path", "url(#sphere-clip)");
-
   g.append("path").datum({type:"Sphere"}).attr("class","sphere").attr("d", path);
   g.append("path").datum(d3.geoGraticule()()).attr("class","graticule").attr("d", path);
 
   const countries = topojson.feature(world, world.objects.countries);
-  const countryList = countries.features
-    .map(feature => ({ id: String(feature.id), name: COUNTRY_NAMES[String(feature.id)] }))
-    .filter(country => country.name)
-    .sort((a, b) => a.name.localeCompare(b.name));
 
-  const searchInput = document.getElementById("country-search");
-  const suggestions = document.getElementById("country-suggestions");
+  // build name lookup — primary: by numeric id, fallback: by properties.name for shapes with no id (Kosovo, Somaliland, etc.)
+  const nameByProps = { "Kosovo": "Kosovo", "Somaliland": "Somaliland" };
+
+  function getShapeName(d) {
+    const byId = COUNTRY_NAMES[String(d.id)];
+    if (byId) return byId;
+    if (d.properties && d.properties.name && nameByProps[d.properties.name]) return nameByProps[d.properties.name];
+    return null;
+  }
+  const optionsHTML = RIGHTS.map(r => `<option value="${r.key}">${r.question}</option>`).join("");
+  ["question-filter","question-filter-mobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.insertAdjacentHTML("beforeend", optionsHTML);
+  });
+
+  // ─── filters ──────────────────────────────────────────────────────────────
+
+  let activeQuestion = "all";
+  let activeStatus = "all";
+  let selectedName = null;
+
+  const qDesktop = document.getElementById("question-filter");
+  const sDesktop = document.getElementById("status-filter");
+  const qMobile = document.getElementById("question-filter-mobile");
+  const sMobile = document.getElementById("status-filter-mobile");
+
+  function recolor() {
+    countryPaths.attr("fill", d => {
+      const name = getShapeName(d);
+      return activeQuestion === "all" ? getCountryColor(name, countryData) : getQuestionColor(name, countryData, activeQuestion);
+    });
+  }
+
+  function applyFilter() {
+    activeQuestion = (qDesktop && qDesktop.value !== "all") ? qDesktop.value : (qMobile && qMobile.value !== "all") ? qMobile.value : "all";
+    activeStatus = (sDesktop && sDesktop.value !== "all") ? sDesktop.value : (sMobile && sMobile.value !== "all") ? sMobile.value : "all";
+    if (sDesktop) sDesktop.disabled = activeQuestion === "all";
+    if (sMobile) sMobile.disabled = activeQuestion === "all";
+    recolor();
+    updateLegend(activeQuestion);
+    if (activeStatus !== "all" && activeQuestion !== "all") {
+      countryPaths.classed("filtered-out", d => {
+        const name = getShapeName(d);
+        if (!name || !countryData[name]) return activeStatus !== "unknown";
+        return (countryData[name][activeQuestion] || "unknown") !== activeStatus;
+      });
+    } else {
+      countryPaths.classed("filtered-out", false);
+    }
+  }
+
+  function syncMobileToDesktop() {
+    if (qDesktop && qMobile) qDesktop.value = qMobile.value;
+    if (sDesktop && sMobile) sDesktop.value = sMobile.value;
+    applyFilter();
+  }
+
+  function syncDesktopToMobile() {
+    if (qMobile && qDesktop) qMobile.value = qDesktop.value;
+    if (sMobile && sDesktop) sMobile.value = sDesktop.value;
+    applyFilter();
+  }
+
+  if (qDesktop) qDesktop.addEventListener("change", syncDesktopToMobile);
+  if (sDesktop) sDesktop.addEventListener("change", syncDesktopToMobile);
+  if (qMobile) qMobile.addEventListener("change", () => { if (qMobile.value === "all" && sMobile) sMobile.value = "all"; syncMobileToDesktop(); });
+  if (sMobile) sMobile.addEventListener("change", syncMobileToDesktop);
+
+  // clear buttons
   const clearSearch = document.getElementById("clear-search");
   const clearQuestion = document.getElementById("clear-question");
-  const clearMap = document.getElementById("clear-map");
-  const legend = document.getElementById("map-legend");
-  const questionFilter = document.getElementById("question-filter");
-  const statusFilter = document.getElementById("status-filter");
-  let activeSuggestion = -1;
-  let selectedCountryId = null;
+  if (clearQuestion) clearQuestion.addEventListener("click", () => {
+    if (qDesktop) qDesktop.value = "all";
+    if (sDesktop) sDesktop.value = "all";
+    if (qMobile) qMobile.value = "all";
+    if (sMobile) sMobile.value = "all";
+    applyFilter();
+  });
 
-  questionFilter.insertAdjacentHTML("beforeend", RIGHTS
-    .map(right => `<option value="${right.key}">${right.question}</option>`)
-    .join(""));
+  // ─── country paths ────────────────────────────────────────────────────────
 
-  // Map credit — bottom right
-  const creditEl = document.createElement("div");
-  creditEl.id = "map-credit";
-  creditEl.innerHTML = `Map: <a href="https://github.com/topojson/world-atlas" target="_blank">Natural Earth / world-atlas</a>`;
-  container.appendChild(creditEl);
-
-  function clearSelectedCountry() {
-  selectedCountryId = null;
-
-  d3.selectAll(".country")
-    .classed("selected", false);
-
-  document.getElementById("panel-country").textContent = "Select a country";
-  document.getElementById("panel-sub").textContent = "Click on the map";
-
-  document.getElementById("panel-empty").style.display = "block";
-
-  document.getElementById("panel-rights").style.display = "none";
-  document.getElementById("panel-rights").innerHTML = "";
-}
-
-  function closeSuggestions() {
-    activeSuggestion = -1;
-    suggestions.classList.remove("is-open");
-    suggestions.innerHTML = "";
-    searchInput.setAttribute("aria-expanded", "false");
-  }
-
-  function getSearchMatches() {
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) return [];
-
-    return countryList
-      .filter(country => country.name.toLowerCase().includes(query))
-      .sort((a, b) => {
-        const aStarts = a.name.toLowerCase().startsWith(query);
-        const bStarts = b.name.toLowerCase().startsWith(query);
-        return Number(bStarts) - Number(aStarts) || a.name.localeCompare(b.name);
-      })
-      .slice(0, 7);
-  }
-
-  function renderSuggestions() {
-    const matches = getSearchMatches();
-    suggestions.innerHTML = "";
-
-    if (!matches.length) {
-      closeSuggestions();
-      return;
-    }
-
-    matches.forEach((country, index) => {
-      const option = document.createElement("button");
-      option.type = "button";
-      option.className = "suggestion-option";
-      option.id = `country-suggestion-${index}`;
-      option.setAttribute("role", "option");
-      option.textContent = country.name;
-      option.addEventListener("mousedown", event => event.preventDefault());
-      option.addEventListener("click", () => {
-        selectCountryByName(country.name);
-        closeSuggestions();
-      });
-      suggestions.appendChild(option);
-    });
-
-    activeSuggestion = -1;
-    suggestions.classList.add("is-open");
-    searchInput.setAttribute("aria-expanded", "true");
-  }
-
-  function moveActiveSuggestion(direction) {
-    const options = [...suggestions.querySelectorAll(".suggestion-option")];
-    if (!options.length) return false;
-
-    activeSuggestion = (activeSuggestion + direction + options.length) % options.length;
-    options.forEach((option, index) => {
-      option.classList.toggle("is-active", index === activeSuggestion);
-      option.setAttribute("aria-selected", index === activeSuggestion ? "true" : "false");
-    });
-    return true;
-  }
-
-  function updateLegend() {
-    const questionKey = questionFilter.value;
-    const questionText = questionKey === "all"
-      ? "Overall rights score"
-      : questionFilter.options[questionFilter.selectedIndex].text;
-    const rows = questionKey === "all"
-      ? [
-          ["var(--map-yes)", "Mostly protective"],
-          ["var(--map-partial)", "Mixed / partial"],
-          ["var(--map-no)", "Mostly restrictive"],
-          ["var(--map-death)", "Death penalty risk"],
-          ["var(--map-empty)", "No data"],
-        ]
-      : [
-          ["var(--map-yes)", "Protective answer"],
-          ["var(--map-partial)", "Partial / varies"],
-          ["var(--map-no)", "Restrictive answer"],
-          ["var(--map-death)", "Death penalty"],
-          ["var(--map-empty)", "No data"],
-        ];
-
-    legend.innerHTML = `
-      <div class="legend-title">${questionText}</div>
-      ${rows.map(([color, label]) => `
-        <div class="legend-row">
-          <span class="legend-swatch" style="background:${color}"></span>
-          <span>${label}</span>
-        </div>
-      `).join("")}
-    `;
-  }
-
-  function selectCountryByName(name) {
-  const match = countryList.find(
-    country => country.name.toLowerCase() === name.toLowerCase()
-  );
-
-  if (!match) return false;
-
-  selectedCountryId = String(match.id);
-
-  d3.selectAll(".country")
-    .classed(
-      "selected",
-      d => String(d.id) === selectedCountryId
-    );
-
-  showPanel(match.name, countryData);
-
-  searchInput.value = match.name;
-
-  applyFilters();
-
-  closeSuggestions();
-
-  return true;
-}
-
-  function selectFirstSearchMatch() {
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) return false;
-    const match = countryList.find(country => country.name.toLowerCase().includes(query));
-    return match ? selectCountryByName(match.name) : false;
-  }
-
-  function applyFilters() {
-    const query = searchInput.value.trim().toLowerCase();
-    const questionKey = questionFilter.value;
-
-    statusFilter.disabled = questionKey === "all";
-    if (questionKey === "all") statusFilter.value = "all";
-    clearQuestion.style.visibility = questionKey === "all" ? "hidden" : "visible";
-
-    d3.selectAll(".country")
-      .attr("fill", d => {
-        const name = COUNTRY_NAMES[String(d.id)];
-        return questionKey === "all"
-          ? getCountryColor(name, countryData)
-          : getQuestionColor(name, countryData, questionKey);
-      })
-      .classed("search-match", d => {
-		const name = (COUNTRY_NAMES[String(d.id)] || "").toLowerCase();
-		if (!query.length) return false;
-
-		return (
-			name === query ||
-			name.startsWith(query + " ")
-  );
-})
-      .classed("filtered-out", d => {
-        const name = COUNTRY_NAMES[String(d.id)] || "";
-        const normalized = name.toLowerCase();
-		const searchMismatch = query.length > 0 && normalized !== query && !normalized.startsWith(query + " ");
-        const statusMismatch = !matchesQuestionStatus(name, countryData, questionKey, statusFilter.value);
-        return searchMismatch || statusMismatch;
-      });
-    updateLegend();
-  }
-
-  g.selectAll(".country")
+  const countryPaths = g.selectAll(".country")
     .data(countries.features)
     .enter().append("path")
     .attr("class", "country")
-    .attr("data-country-id", d => String(d.id))
-    .attr("role", "button")
-    .attr("tabindex", 0)
-    .attr("aria-label", d => COUNTRY_NAMES[String(d.id)] || `Country id ${d.id}`)
     .attr("d", path)
-    .attr("fill", d => getCountryColor(COUNTRY_NAMES[String(d.id)], countryData))
+    .attr("fill", d => getCountryColor(getShapeName(d), countryData))
     .on("mousemove", function(event, d) {
-      const name = COUNTRY_NAMES[String(d.id)];
-      const tip  = document.getElementById("tooltip");
-      tip.textContent   = name || `(id ${d.id})`;
+      const name = getShapeName(d);
+      const tip = document.getElementById("tooltip");
+      if (!name) { tip.style.opacity = "0"; return; }
+      tip.textContent = name;
       tip.style.opacity = "1";
-      tip.style.left    = (event.offsetX + 12) + "px";
-      tip.style.top     = (event.offsetY - 8)  + "px";
+      tip.style.left = (event.offsetX + 12) + "px";
+      tip.style.top = (event.offsetY - 8) + "px";
     })
     .on("mouseleave", function() {
       document.getElementById("tooltip").style.opacity = "0";
     })
     .on("click", function(event, d) {
-	  document.getElementById("tooltip").style.opacity = "0";
-
-	  const name = COUNTRY_NAMES[String(d.id)];
-
-	  if (!name) return;
-
-	  selectedCountryId = String(d.id);
-
-	  d3.selectAll(".country")
-		.classed(
-		  "selected",
-		  c => String(c.id) === selectedCountryId
-		);
-
-	  showPanel(name, countryData);
-
-	  searchInput.value = name;
-
-	  applyFilters();
-
-	  this.blur();
-	})
-    .on("keydown", function(event, d) {
-      if (event.key !== "Enter" && event.key !== " ") return;
-      event.preventDefault();
-      const name = COUNTRY_NAMES[String(d.id)];
-      if (name) selectCountryByName(name);
+      document.getElementById("tooltip").style.opacity = "0";
+      const name = getShapeName(d);
+      if (!name) {
+        // clicked blank/unknown area — deselect
+        d3.selectAll(".country").classed("selected", false);
+        selectedName = null;
+        clearPanel();
+        return;
+      }
+      selectedName = name;
+      d3.selectAll(".country").classed("selected", false);
+      d3.select(this).classed("selected", true);
+      showPanel(name, countryData);
     });
 
-  searchInput.addEventListener("input", () => {
-    applyFilters();
-    renderSuggestions();
+  // click on sphere (ocean) also deselects
+  g.select(".sphere").on("click", () => {
+    d3.selectAll(".country").classed("selected", false);
+    selectedName = null;
+    clearPanel();
   });
-  searchInput.addEventListener("focus", renderSuggestions);
-  searchInput.addEventListener("blur", () => window.setTimeout(closeSuggestions, 120));
-  searchInput.addEventListener("change", () => {
-    if (searchInput.value.trim()) selectFirstSearchMatch();
+
+  // ─── zoom ─────────────────────────────────────────────────────────────────
+
+  const zoom = d3.zoom().scaleExtent([1, 12]).translateExtent([[-W * 0.5, -H * 0.5], [W * 1.5, H * 1.5]]).on("zoom", e => g.attr("transform", e.transform));
+  svg.call(zoom);
+  document.getElementById("zoom-in").onclick = () => svg.transition().call(zoom.scaleBy, 1.5);
+  document.getElementById("zoom-out").onclick = () => svg.transition().call(zoom.scaleBy, 0.67);
+  document.getElementById("zoom-reset").onclick = () => svg.transition().call(zoom.transform, d3.zoomIdentity);
+
+  // ─── search ───────────────────────────────────────────────────────────────
+
+  const allNames = Object.values(COUNTRY_NAMES).sort();
+  const searchInput = document.getElementById("country-search");
+  const searchResults = document.getElementById("country-suggestions");
+
+  function zoomToCountry(name) {
+    const feature = countries.features.find(f => COUNTRY_NAMES[String(f.id)] === name);
+    if (!feature) return;
+    const [[x0,y0],[x1,y1]] = path.bounds(feature);
+    const cx = (x0+x1)/2, cy = (y0+y1)/2;
+    const scale = Math.min(8, 0.9 / Math.max((x1-x0)/W, (y1-y0)/H));
+    svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(W/2, H/2).scale(scale).translate(-cx, -cy));
+    d3.selectAll(".country").classed("selected", false);
+    countryPaths.filter(f => COUNTRY_NAMES[String(f.id)] === name).classed("selected", true);
+    selectedName = name;
+    showPanel(name, countryData);
+  }
+
+  function closeSuggestions() {
+    searchResults.innerHTML = "";
+    searchResults.classList.remove("is-open");
+  }
+
+  function renderSuggestions(q) {
+    searchResults.innerHTML = "";
+    if (!q) { closeSuggestions(); return; }
+    const matches = allNames.filter(n => n.toLowerCase().startsWith(q.toLowerCase())).slice(0, 7);
+    if (!matches.length) { closeSuggestions(); return; }
+    matches.forEach(name => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "suggestion-option";
+      btn.textContent = name;
+      btn.addEventListener("mousedown", e => e.preventDefault());
+      btn.addEventListener("click", () => {
+        searchInput.value = name;
+        closeSuggestions();
+        zoomToCountry(name);
+      });
+      searchResults.appendChild(btn);
+    });
+    searchResults.classList.add("is-open");
+  }
+
+  searchInput.addEventListener("input", () => renderSuggestions(searchInput.value.trim()));
+  searchInput.addEventListener("blur", () => setTimeout(closeSuggestions, 150));
+  searchInput.addEventListener("keydown", e => {
+    if (e.key === "Escape") { searchInput.value = ""; closeSuggestions(); }
+    if (e.key === "Enter") {
+      const first = allNames.find(n => n.toLowerCase().startsWith(searchInput.value.trim().toLowerCase()));
+      if (first) { searchInput.value = first; closeSuggestions(); zoomToCountry(first); }
+    }
   });
-  searchInput.addEventListener("keydown", event => {
-    if (event.key === "ArrowDown" && moveActiveSuggestion(1)) {
-      event.preventDefault();
-      return;
-    }
-    if (event.key === "ArrowUp" && moveActiveSuggestion(-1)) {
-      event.preventDefault();
-      return;
-    }
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const options = [...suggestions.querySelectorAll(".suggestion-option")];
-      if (activeSuggestion >= 0 && options[activeSuggestion]) {
-        selectCountryByName(options[activeSuggestion].textContent);
-      } else {
-        selectFirstSearchMatch();
-      }
-    }
-    if (event.key === "Escape") {
-      closeSuggestions();
-    }
-  });
-  questionFilter.addEventListener("change", applyFilters);
-  statusFilter.addEventListener("change", applyFilters);
-  clearSearch.addEventListener("click", () => {
+
+  if (clearSearch) clearSearch.addEventListener("click", () => {
     searchInput.value = "";
     closeSuggestions();
-    applyFilters();
     searchInput.focus();
   });
-  clearQuestion.addEventListener("click", () => {
-    questionFilter.value = "all";
-    statusFilter.value = "all";
-    applyFilters();
-  });
-  clearMap.addEventListener("click", () => {
-    searchInput.value = "";
-    questionFilter.value = "all";
-    statusFilter.value = "all";
-    clearSelectedCountry();
-    closeSuggestions();
-    applyFilters();
+
+  document.addEventListener("click", e => {
+    if (!document.getElementById("search-zone") && !e.target.closest(".search-zone")) closeSuggestions();
   });
 
-  applyFilters();
-
-  const zoom = d3.zoom()
-    .scaleExtent([1, 12])
-    .translateExtent([[-W * 0.5, -H * 0.5], [W * 1.5, H * 1.5]])
-    .on("zoom", e => g.attr("transform", e.transform));
-
-  svg.call(zoom);
-  document.getElementById("zoom-in").onclick    = () => svg.transition().call(zoom.scaleBy, 1.5);
-  document.getElementById("zoom-out").onclick   = () => svg.transition().call(zoom.scaleBy, 0.67);
-  document.getElementById("zoom-reset").onclick = () => svg.transition().call(zoom.transform, d3.zoomIdentity);
+  // initial legend
+  updateLegend("all");
 }
 
 init();
+
+// ─── MOBILE DRAWER ────────────────────────────────────────────────────────────
+
+function initDrawer() {
+  const panel = document.getElementById("panel");
+  const handle = document.getElementById("panel-header");
+  const isMobile = () => window.innerWidth <= 768;
+
+  function openDrawer() { panel.classList.add("drawer-open"); }
+  function closeDrawer() { panel.classList.remove("drawer-open"); }
+  function isOpen() { return panel.classList.contains("drawer-open"); }
+
+  window._openDrawer = openDrawer;
+
+  const toggleBtn = document.getElementById("filters-toggle");
+  const filtersBody = document.getElementById("filters-body");
+  if (toggleBtn) toggleBtn.addEventListener("click", () => {
+    const collapsed = filtersBody.classList.toggle("is-collapsed");
+    toggleBtn.parentElement.classList.toggle("filters-open", !collapsed);
+  });
+
+  const legendToggleBtn = document.getElementById("legend-toggle");
+  const legendBody = document.getElementById("panel-legend-body");
+  if (legendToggleBtn) legendToggleBtn.addEventListener("click", () => {
+    const collapsed = legendBody.classList.toggle("is-collapsed");
+    legendToggleBtn.parentElement.classList.toggle("filters-open", !collapsed);
+  });
+
+  let startY = 0, startOpen = false;
+  handle.addEventListener("touchstart", e => {
+    startY = e.touches[0].clientY;
+    startOpen = isOpen();
+    panel.style.transition = "none";
+  }, { passive: true });
+  handle.addEventListener("touchmove", e => {
+    if (!isMobile()) return;
+    const dy = e.touches[0].clientY - startY;
+    const peek = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--drawer-peek"));
+    const base = startOpen ? 0 : panel.offsetHeight - peek;
+    const next = Math.max(0, Math.min(panel.offsetHeight - peek, base + dy));
+    panel.style.transform = `translateY(${next}px)`;
+  }, { passive: true });
+  handle.addEventListener("touchend", e => {
+    if (!isMobile()) return;
+    panel.style.transition = "";
+    panel.style.transform = "";
+    const dy = e.changedTouches[0].clientY - startY;
+    if (startOpen) { if (dy > 60) closeDrawer(); else openDrawer(); }
+    else { if (dy < -60) openDrawer(); else closeDrawer(); }
+  });
+  handle.addEventListener("click", () => { if (isMobile()) isOpen() ? closeDrawer() : openDrawer(); });
+  document.getElementById("map-container").addEventListener("touchstart", () => { if (isMobile() && isOpen()) closeDrawer(); }, { passive: true });
+}
+
+initDrawer();
