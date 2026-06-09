@@ -1,5 +1,4 @@
-// map.js — rendering, zoom, pan, click, panel
-
+// holy vibecode
 const COUNTRY_NAMES = {
   "004": "Afghanistan",      "008": "Albania",                  "012": "Algeria",
   "024": "Angola",           "028": "Antigua and Barbuda",      "031": "Azerbaijan",
@@ -15,13 +14,14 @@ const COUNTRY_NAMES = {
   "148": "Chad",             "152": "Chile",                    "156": "China",
   "158": "Taiwan",           "170": "Colombia",                 "174": "Comoros",
   "178": "Congo",            "180": "Democratic Republic of the Congo",
-  "184": "Cook Islands",     "188": "Costa Rica",               "191": "Croatia",
+  "188": "Costa Rica",               "191": "Croatia",
   "192": "Cuba",             "196": "Cyprus",                   "203": "Czechia",
   "204": "Benin",            "208": "Denmark",                  "212": "Dominica",
   "214": "Dominican Republic","218": "Ecuador",                 "222": "El Salvador",
   "226": "Equatorial Guinea","231": "Ethiopia",                 "232": "Eritrea",
   "233": "Estonia",          "238": "Falkland Islands",         "242": "Fiji",
-  "246": "Finland",          "250": "France",                   "262": "Djibouti",
+  "246": "Finland",          "250": "France",                   "260": "French Southern Territories",
+  "262": "Djibouti",
   "266": "Gabon",            "268": "Georgia",                  "270": "Gambia",
   "275": "Palestine",        "276": "Germany",                  "288": "Ghana",
   "296": "Kiribati",         "300": "Greece",                   "304": "Greenland",
@@ -37,7 +37,7 @@ const COUNTRY_NAMES = {
   "426": "Lesotho",          "428": "Latvia",                   "430": "Liberia",
   "434": "Libya",            "440": "Lithuania",                "442": "Luxembourg",
   "450": "Madagascar",       "454": "Malawi",                   "458": "Malaysia",
-  "462": "Maldives",         "466": "Mali",                     "470": "Malta",
+  "462": "Maldives",         "466": "Mali",
   "478": "Mauritania",       "480": "Mauritius",                "484": "Mexico",
   "496": "Mongolia",         "498": "Moldova",                  "499": "Montenegro",
   "504": "Morocco",          "508": "Mozambique",               "512": "Oman",
@@ -49,7 +49,8 @@ const COUNTRY_NAMES = {
   "591": "Panama",           "598": "Papua New Guinea",         "600": "Paraguay",
   "604": "Peru",             "608": "Philippines",              "616": "Poland",
   "620": "Portugal",         "624": "Guinea-Bissau",            "626": "Timor-Leste",
-  "630": "Puerto Rico",      "634": "Qatar",                    "642": "Romania",
+  "630": "Puerto Rico",      "634": "Qatar",                    "638": "Réunion",
+  "642": "Romania",
   "643": "Russia",           "646": "Rwanda",                   "659": "Saint Kitts and Nevis",
   "662": "Saint Lucia",      "670": "Saint Vincent and the Grenadines",
   "678": "Sao Tome and Principe", "682": "Saudi Arabia",        "686": "Senegal",
@@ -61,7 +62,7 @@ const COUNTRY_NAMES = {
   "748": "Eswatini",         "752": "Sweden",                   "756": "Switzerland",
   "760": "Syria",            "762": "Tajikistan",               "764": "Thailand",
   "768": "Togo",             "776": "Tonga",                    "780": "Trinidad and Tobago",
-  "784": "United Arab Emirates", "788": "Tunisia",              "792": "Türkiye",
+  "784": "United Arab Emirates", "788": "Tunisia",              "792": "Turkey",
   "795": "Turkmenistan",     "798": "Tuvalu",                   "800": "Uganda",
   "804": "Ukraine",          "807": "North Macedonia",          "818": "Egypt",
   "826": "United Kingdom",   "834": "Tanzania",                 "840": "United States",
@@ -125,16 +126,13 @@ function getQuestionColor(name, data, key) {
 
 function updateLegend(questionKey) {
   const legend = document.getElementById("map-legend");
-  const panelLegendBody = document.getElementById("panel-legend-body");
-  if (!legend && !panelLegendBody) return;
+  if (!legend) return;
   const isOverall = !questionKey || questionKey === "all";
   const title = isOverall ? "Overall rights score" : RIGHTS.find(r => r.key === questionKey)?.question || "";
   const rows = isOverall
     ? [["var(--map-yes)","Mostly protective"],["var(--map-partial)","Mixed / partial"],["var(--map-no)","Mostly restrictive"],["var(--map-death)","Death penalty"],["var(--map-empty)","No data"]]
     : [["var(--map-yes)","Protective"],["var(--map-partial)","Partial / varies"],["var(--map-no)","Restrictive"],["var(--map-death)","Death penalty"],["var(--map-empty)","No data"]];
-  const inner = `<div class="legend-title">${title}</div>${rows.map(([c,l])=>`<div class="legend-row"><span class="legend-swatch" style="background:${c}"></span><span>${l}</span></div>`).join("")}`;
-  if (legend) legend.innerHTML = inner;
-  if (panelLegendBody) panelLegendBody.innerHTML = inner;
+  legend.innerHTML = `<div class="legend-title">${title}</div>${rows.map(([c,l])=>`<div class="legend-row"><span class="legend-swatch" style="background:${c}"></span><span>${l}</span></div>`).join("")}`;
 }
 
 // ─── PANEL ────────────────────────────────────────────────────────────────────
@@ -216,7 +214,7 @@ async function init() {
   const countries = topojson.feature(world, world.objects.countries);
 
   // build name lookup — primary: by numeric id, fallback: by properties.name for shapes with no id (Kosovo, Somaliland, etc.)
-  const nameByProps = { "Kosovo": "Kosovo", "Somaliland": "Somaliland" };
+  const nameByProps = { "Kosovo": "Kosovo", "Somaliland": "Somaliland", "N. Cyprus": "Northern Cyprus", "Northern Cyprus": "Northern Cyprus", "Akrotiri": "Cyprus", "Dhekelia": "Cyprus" };
 
   function getShapeName(d) {
     const byId = COUNTRY_NAMES[String(d.id)];
@@ -347,19 +345,19 @@ async function init() {
 
   // ─── search ───────────────────────────────────────────────────────────────
 
-  const allNames = Object.values(COUNTRY_NAMES).sort();
+  const allNames = [...new Set([...Object.values(COUNTRY_NAMES), ...Object.values(nameByProps)])].sort();
   const searchInput = document.getElementById("country-search");
   const searchResults = document.getElementById("country-suggestions");
 
   function zoomToCountry(name) {
-    const feature = countries.features.find(f => COUNTRY_NAMES[String(f.id)] === name);
+    const feature = countries.features.find(f => getShapeName(f) === name);
     if (!feature) return;
     const [[x0,y0],[x1,y1]] = path.bounds(feature);
     const cx = (x0+x1)/2, cy = (y0+y1)/2;
     const scale = Math.min(8, 0.9 / Math.max((x1-x0)/W, (y1-y0)/H));
     svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(W/2, H/2).scale(scale).translate(-cx, -cy));
     d3.selectAll(".country").classed("selected", false);
-    countryPaths.filter(f => COUNTRY_NAMES[String(f.id)] === name).classed("selected", true);
+    countryPaths.filter(f => getShapeName(f) === name).classed("selected", true);
     selectedName = name;
     showPanel(name, countryData);
   }
@@ -436,12 +434,20 @@ function initDrawer() {
     toggleBtn.parentElement.classList.toggle("filters-open", !collapsed);
   });
 
-  const legendToggleBtn = document.getElementById("legend-toggle");
-  const legendBody = document.getElementById("panel-legend-body");
-  if (legendToggleBtn) legendToggleBtn.addEventListener("click", () => {
+  const legendToggle = document.getElementById("legend-toggle");
+  const legendBody = document.getElementById("legend-body");
+  if (legendToggle) legendToggle.addEventListener("click", () => {
     const collapsed = legendBody.classList.toggle("is-collapsed");
-    legendToggleBtn.parentElement.classList.toggle("filters-open", !collapsed);
+    legendToggle.parentElement.classList.toggle("filters-open", !collapsed);
   });
+
+  // keep mobile legend in sync with desktop legend
+  const desktopLegend = document.getElementById("map-legend");
+  if (legendBody && desktopLegend) {
+    const observer = new MutationObserver(() => { legendBody.innerHTML = desktopLegend.innerHTML; });
+    observer.observe(desktopLegend, { childList: true, subtree: true });
+    legendBody.innerHTML = desktopLegend.innerHTML;
+  }
 
   let startY = 0, startOpen = false;
   handle.addEventListener("touchstart", e => {
