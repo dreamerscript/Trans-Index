@@ -1,5 +1,5 @@
 {
-  "_comment": "VARIABLES: yes|no|partial|death|unknown. Any other will result in a yellow undetermined",
+  "_comment": "VARIABLES: yes|no|partial|death_penalty|unknown. Any other will result in a yellow word",
 
   "Spain": {
 	"sentenced":    "no",
@@ -122,7 +122,7 @@
     "note": "Transgender individuals may be criminalized under the country's LGBT propaganda laws."
   },
   "Saudi Arabia": {
-	"sentenced":    "yes",
+	"sentenced":    "death_penalty",
     "mental":       "yes",
     "legal_name":   "no",
     "legal_gender": "no",
@@ -134,7 +134,7 @@
     "military":     "no",
     "marriage":     "no",
     "adopt":        "no",
-    "note": "Sharia law is broadly applied to criminalize any type of gender nonconformity"
+    "note": "Sharia law is broadly applied to criminalize any type of gender nonconformity and make it be punishable by death in some cases."
   },
   "India": {
 	"sentenced":    "no",
@@ -521,7 +521,7 @@
     "surgery":      "yes",
     "minors":       "yes",
     "prison":       "yes",
-    "military":     "no",
+    "military":     "N/A",
     "marriage":     "yes",
     "adopt":        "yes",
     "note": "Iceland has no standing army."
@@ -870,5 +870,110 @@
     "marriage":     "yes",
     "adopt":        "yes",
     "note": "Surgery is heavily gatekept and long waitlists are reported. HRT for minors requires consent from the minor, their guardians and a specialized pediatric medical team."
+  },
+  "Fiji": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "no",
+    "nonbinary":    "no",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "unknown",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "Although Fiji prohibits discrimination against gender expression, it has got no established procedure to change one's legal gender indicator."
+  },
+  "New Caledonia": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "unknown",
+    "legal_gender": "unknown",
+    "nonbinary":    "unknown",
+    "hrt":          "yes",
+    "surgery":      "partial",
+    "minors":       "yes",
+    "prison":       "partial",
+    "military":     "yes",
+    "marriage":     "yes",
+    "adopt":        "yes",
+    "note": "New Caledonia applies the french law. Gender affirming surgery is not available locally, although it is funded abroad."
+  },
+  "Papua New Guinea": {
+	"sentenced":    "undetermined",
+    "mental":       "no",
+    "legal_name":   "unknown",
+    "legal_gender": "unknown",
+    "nonbinary":    "unknown",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "no",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "Although there is no explicit laws against transgender individuals, the country's deeply conservative roots and other laws criminalizing same-sex sexual activity may suggest targeting of transgender individuals."
+  },
+  "Solomon Islands": {
+	"sentenced":    "undetermined",
+    "mental":       "no",
+    "legal_name":   "unknown",
+    "legal_gender": "unknown",
+    "nonbinary":    "unknown",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "N/A",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "Although there is no explicit laws against transgender individuals, the country's deeply conservative roots and other laws criminalizing same-sex sexual activity may suggest targeting of transgender individuals. The Solomon Islands have no standing army."
+  },
+  "Vanuatu": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "no",
+    "legal_gender": "no",
+    "nonbinary":    "no",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "N/A",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "Vanuatu has no standing army."
+  },
+  "Algeria": {
+	"sentenced":    "undetermined",
+    "mental":       "yes",
+    "legal_name":   "no",
+    "legal_gender": "no",
+    "nonbinary":    "no",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "no",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "Although there is no explicit laws against transgender individuals, the country's deeply conservative roots and other laws criminalizing same-sex sexual activity may suggest targeting of transgender individuals."
+  },
+  "Libya": {
+	"sentenced":    "partial",
+    "mental":       "no",
+    "legal_name":   "unknown",
+    "legal_gender": "unknown",
+    "nonbinary":    "unknown",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "no",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "Although there is no explicit laws against transgender individuals, state actors and armed groups regurarly use broadly written morality laws to prosecute transgender individuals."
   }
 }
