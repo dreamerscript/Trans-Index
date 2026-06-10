@@ -434,7 +434,7 @@ function initDrawer() {
   });
 
   const legendToggle = document.getElementById("legend-toggle");
-  const legendBody = document.getElementById("legend-body");
+  const legendBody = document.getElementById("panel-legend-body");
   if (legendToggle) legendToggle.addEventListener("click", () => {
     const collapsed = legendBody.classList.toggle("is-collapsed");
     legendToggle.parentElement.classList.toggle("filters-open", !collapsed);
