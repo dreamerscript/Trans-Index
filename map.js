@@ -13,7 +13,7 @@ const COUNTRY_NAMES = {
   "132": "Cabo Verde",       "140": "Central African Republic", "144": "Sri Lanka",
   "148": "Chad",             "152": "Chile",                    "156": "China",
   "158": "Taiwan",           "170": "Colombia",                 "174": "Comoros",
-  "178": "Congo",            "180": "Democratic Republic of the Congo",
+  "178": "Republic of the Congo",            "180": "Democratic Republic of the Congo",
   "188": "Costa Rica",               "191": "Croatia",
   "192": "Cuba",             "196": "Cyprus",                   "203": "Czechia",
   "204": "Benin",            "208": "Denmark",                  "212": "Dominica",
