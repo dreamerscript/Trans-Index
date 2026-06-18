@@ -1334,6 +1334,21 @@
     "military":     "no",
     "marriage":     "no",
     "adopt":        "no",
-    "note": ""
+    "note": "While the Republic of the Congo allows for single-parent adopting, it requires a deep investigation, and openly transgender individuals are almost certain to be rejected."
+  },
+  "Equatorial Guinea": {
+	"sentenced":    "partial",
+    "mental":       "yes",
+    "legal_name":   "unknown",
+    "legal_gender": "unknown",
+    "nonbinary":    "unknown",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "no",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": "While not explicitly illegal, transgender individuals are heavily prosecuted."
   }
 }
