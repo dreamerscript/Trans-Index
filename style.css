@@ -9,7 +9,7 @@
   --no: #c45252; --no-bg: rgba(196,82,82,0.15);
   --death-color: #e03030; --death-bg: rgba(180,20,20,0.2);
   --unknown: #3a3a40;
-  --map-yes: #3d7a57; --map-partial: #8f6028; --map-no: #7a2828; --map-death: #b01010; --map-empty: #1e1e26;
+  --map-yes: #3d7a57; --map-partial: #8f6028; --map-no: #7a2828; --map-death: #520380; --map-empty: #1e1e26;
   --drawer-peek: 72px; --drawer-radius: 14px;
 }
 

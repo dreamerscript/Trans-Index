@@ -13,7 +13,7 @@ const COUNTRY_NAMES = {
   "132": "Cabo Verde",       "140": "Central African Republic", "144": "Sri Lanka",
   "148": "Chad",             "152": "Chile",                    "156": "China",
   "158": "Taiwan",           "170": "Colombia",                 "174": "Comoros",
-  "178": "Congo",            "180": "Democratic Republic of the Congo",
+  "178": "Republic of the Congo",            "180": "Democratic Republic of the Congo",
   "188": "Costa Rica",               "191": "Croatia",
   "192": "Cuba",             "196": "Cyprus",                   "203": "Czechia",
   "204": "Benin",            "208": "Denmark",                  "212": "Dominica",
@@ -30,7 +30,7 @@ const COUNTRY_NAMES = {
   "348": "Hungary",          "352": "Iceland",                  "356": "India",
   "360": "Indonesia",        "364": "Iran",                     "368": "Iraq",
   "372": "Ireland",          "376": "Israel",                   "380": "Italy",
-  "384": "Côte d'Ivoire",    "388": "Jamaica",                  "392": "Japan",
+  "384": "Ivory Coast",    "388": "Jamaica",                  "392": "Japan",
   "398": "Kazakhstan",       "400": "Jordan",                   "404": "Kenya",
   "408": "North Korea",      "410": "South Korea",              "414": "Kuwait",
   "417": "Kyrgyzstan",       "418": "Laos",                     "422": "Lebanon",
@@ -51,8 +51,7 @@ const COUNTRY_NAMES = {
   "620": "Portugal",         "624": "Guinea-Bissau",            "626": "Timor-Leste",
   "630": "Puerto Rico",      "634": "Qatar",                    "638": "Réunion",
   "642": "Romania",
-  "643": "Russia",           "646": "Rwanda",                   "659": "Saint Kitts and Nevis",
-  "662": "Saint Lucia",      "670": "Saint Vincent and the Grenadines",
+  "643": "Russia",           "646": "Rwanda",
   "678": "Sao Tome and Principe", "682": "Saudi Arabia",        "686": "Senegal",
   "688": "Serbia",           "690": "Seychelles",               "694": "Sierra Leone",
   "702": "Singapore",        "703": "Slovakia",                 "704": "Vietnam",
@@ -81,7 +80,7 @@ const SHAPE_ALIAS = {
 
 function normalise(val, invert) {
   if (!val || val === "unknown") return "unknown";
-  if (val === "death_penalty") return "death";
+  if (val === "death") return "death";
   if (invert) {
     if (val === "no") return "good";
     if (val === "yes") return "bad";
@@ -159,7 +158,7 @@ function showPanel(name, data) {
   const rightsHTML = RIGHTS.map(r => {
     const val = d[r.key] || "unknown";
     const norm = normalise(val, r.invert);
-    const cls = val === "death_penalty" ? "status-death" : norm === "good" ? "status-yes" : norm === "bad" ? "status-no" : norm === "partial" ? "status-partial" : "status-unknown";
+    const cls = val === "death" ? "status-death" : norm === "good" ? "status-yes" : norm === "bad" ? "status-no" : norm === "partial" ? "status-partial" : "status-unknown";
     return `<div class="right-item"><div class="right-question">${r.question}</div><span class="right-status ${cls}">${STATUS_LABEL[val] || val}</span></div>`;
   }).join("");
   document.getElementById("panel-rights").innerHTML = `<div style="padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:4px">${scoreHTML}</div>${rightsHTML}`;
