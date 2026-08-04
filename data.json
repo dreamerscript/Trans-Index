@@ -1695,5 +1695,35 @@
     "marriage":     "no",
     "adopt":        "no",
     "note": "While the legal name change procedure may be nominally possible, the requirements are unknown."
+  },
+  "Greenland": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "yes",
+    "nonbinary":    "yes",
+    "hrt":          "partial",
+    "surgery":      "partial",
+    "minors":       "partial",
+    "prison":       "yes",
+    "military":     "yes",
+    "marriage":     "yes",
+    "adopt":        "yes",
+    "note": "HRT and gender affirming surgery are restricted."
+  },
+  "Mexico": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "partial",
+    "nonbinary":    "no",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "yes",
+    "prison":       "partial",
+    "military":     "yes",
+    "marriage":     "yes",
+    "adopt":        "yes",
+    "note": "Requirements around the legal gender marker change may vary, but it is an accessible procedure in most cases. Prison placement is still evolving, but options may be given to transgender individuals."
   }
 }
