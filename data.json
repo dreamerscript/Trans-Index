@@ -751,21 +751,6 @@
     "adopt":        "partial",
     "note": "A name change is possible as a part of a gender mark change. To change the legal gender mark, individuals must have a diagnosis, undergo HRT and forced sterilisation and be forcefully divorced. HRT and gender affirming surgery are both strictly gatekept. Prison placement is based on the legal gender indicator. Marriage can be possible as long as it is heterosexual. Adoption is possible if the individual is married, and although single parent adoption is technically legal, an openly trans applicant is highly likely to face prejudice and rejection from local social work centers."
   },
-  "French Southern Territories": {
-	"sentenced":    "unknown",
-    "mental":       "unknown",
-    "legal_name":   "unknown",
-    "legal_gender": "unknown",
-    "nonbinary":    "unknown",
-    "hrt":          "unknown",
-    "surgery":      "unknown",
-    "minors":       "unknown",
-    "prison":       "unknown",
-    "military":     "unknown",
-    "marriage":     "unknown",
-    "adopt":        "unknown",
-    "note": ""
-  },
   "Northern Cyprus": {
 	"sentenced":    "no",
     "mental":       "yes",
@@ -1530,5 +1515,35 @@
     "marriage":     "no",
     "adopt":        "no",
     "note": "Aggavated homosexuality, as the law calls it, can lead to the death penalty being applied."
+  },
+  "French Southern Territories": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "partial",
+    "nonbinary":    "no",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "yes",
+    "prison":       "partial",
+    "military":     "yes",
+    "marriage":     "yes",
+    "adopt":        "yes",
+    "note": "Territory follows the legislation of France. The applicant must demonstrate their claim for legal gender recognition. Minors can not change their legal gender marker. The placement of individuals in prisons is dependant on the legal gender marker."
+  },
+  "Madagascar": {
+	"sentenced":    "no",
+    "mental":       "yes",
+    "legal_name":   "unknown",
+    "legal_gender": "unknown",
+    "nonbinary":    "unknown",
+    "hrt":          "no",
+    "surgery":      "no",
+    "minors":       "no",
+    "prison":       "no",
+    "military":     "no",
+    "marriage":     "no",
+    "adopt":        "no",
+    "note": ""
   }
 }
