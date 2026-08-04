@@ -1,6 +1,5 @@
-// holy vibecode
 const COUNTRY_NAMES = {
-  "004": "Afghanistan",      "008": "Albania",                  "012": "Algeria",
+  "004": "Afghanistan",      "008": "Albania",                  "010": "Antarctica", "012": "Algeria",
   "024": "Angola",           "028": "Antigua and Barbuda",      "031": "Azerbaijan",
   "032": "Argentina",        "036": "Australia",                "040": "Austria",
   "044": "Bahamas",          "048": "Bahrain",                  "050": "Bangladesh",
@@ -52,7 +51,7 @@ const COUNTRY_NAMES = {
   "630": "Puerto Rico",      "634": "Qatar",                    "638": "Réunion",
   "642": "Romania",
   "643": "Russia",           "646": "Rwanda",
-  "678": "Sao Tome and Principe", "682": "Saudi Arabia",        "686": "Senegal",
+  "682": "Saudi Arabia",        "686": "Senegal",
   "688": "Serbia",           "690": "Seychelles",               "694": "Sierra Leone",
   "702": "Singapore",        "703": "Slovakia",                 "704": "Vietnam",
   "705": "Slovenia",         "706": "Somalia",                  "710": "South Africa",
@@ -145,7 +144,7 @@ function showPanel(name, data) {
   const d = data[name];
   if (!d) {
     panelSub.style.display = "none";
-    document.getElementById("panel-rights").innerHTML = `<p class="no-data-msg">No data for this country yet.<br>Add it in data.json.</p>`;
+    document.getElementById("panel-rights").innerHTML = `<p class="no-data-msg">No data for this country yet.`;
     if (window._openDrawer) window._openDrawer();
     return;
   }
