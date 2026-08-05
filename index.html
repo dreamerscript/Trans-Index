@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<!--
-	To add:
-	Contact email (THIS FORM: xxxxxxx [at] xmail [dot] com) (on readme.md)
-	Maybe rework on the theme? Add a menu popup that shows the different themes. For now, dark (current one), light, and catpuccin mocha, tho I want more. I still have to figure out the menu
-	Write the README.md
-	Oh yeah, add a date of a date consulted 
-	Add a first time welcome message
-	Move the sources to the README.md, they take too much space
-	Enhance accessibility (and maybe SEO?), check lighthouse report. Discarding performance (as I've seen it vary) my results for both desktop and mobile are:
-		Accessibility: 82
-		Best practices: 96
-		SEO: 90
-	I'll start writing stuff down here as I test and all
---!>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trans Rights World Map</title>
+  <meta name="description" content="Visualise transgender rights and legal recognition around the world, country by country.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Trans Rights World Map">
+  <meta property="og:description" content="Visualise transgender rights and legal recognition around the world, country by country.">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -33,7 +23,7 @@
       <label class="control search-control" for="country-search">
         <span>Search</span>
         <div class="field-shell">
-          <input id="country-search" type="search" placeholder="Find a country" autocomplete="off" aria-controls="country-suggestions" aria-expanded="false">
+          <input id="country-search" type="search" role="combobox" placeholder="Find a country" autocomplete="off" aria-autocomplete="list" aria-controls="country-suggestions" aria-expanded="false">
           <button class="clear-field" id="clear-search" type="button" aria-label="Clear search">×</button>
         </div>
       </label>
@@ -62,7 +52,7 @@
     </div>
   </header>
 
-  <div class="main">
+  <main class="main">
     <div id="map-container">
       <div class="tooltip" id="tooltip"></div>
       <div id="map-legend" aria-live="polite"></div>
@@ -124,7 +114,7 @@
 
       <div class="source-note">
         <span class="disclaimer">
-			Data compiled manually and may be innacurate or out of date. Contact details to report any issue may be found in the <a href="https://github.com/dreamerscript/Trans-Index" target="_blank" rel="bireferrer">Github</a> page.
+			Data compiled manually and may be innacurate or out of date. More informationg on the <a href="https://github.com/dreamerscript/Trans-Index" target="_blank" rel="bireferrer">GitHub Project Page</a>.
 		</span>
         <div class="theme-picker">
           <button class="theme-trigger" id="theme-trigger" type="button" aria-label="Choose theme" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu">

@@ -375,6 +375,7 @@ async function init() {
   function closeSuggestions() {
     searchResults.innerHTML = "";
     searchResults.classList.remove("is-open");
+    searchInput.setAttribute("aria-expanded", "false");
   }
 
   function renderSuggestions(q) {
@@ -386,6 +387,8 @@ async function init() {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "suggestion-option";
+      btn.setAttribute("role", "option");
+      btn.setAttribute("aria-selected", "false");
       btn.textContent = name;
       btn.addEventListener("mousedown", e => e.preventDefault());
       btn.addEventListener("click", () => {
@@ -396,6 +399,7 @@ async function init() {
       searchResults.appendChild(btn);
     });
     searchResults.classList.add("is-open");
+    searchInput.setAttribute("aria-expanded", "true");
   }
 
   searchInput.addEventListener("input", () => renderSuggestions(searchInput.value.trim()));
