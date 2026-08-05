@@ -36,7 +36,7 @@ const COUNTRY_NAMES = {
   "426": "Lesotho",          "428": "Latvia",                   "430": "Liberia",
   "434": "Libya",            "440": "Lithuania",                "442": "Luxembourg",
   "450": "Madagascar",       "454": "Malawi",                   "458": "Malaysia",
-  "462": "Maldives",         "466": "Mali",
+  "466": "Mali",
   "478": "Mauritania",                       "484": "Mexico",
   "496": "Mongolia",         "498": "Moldova",                  "499": "Montenegro",
   "504": "Morocco",          "508": "Mozambique",               "512": "Oman",
