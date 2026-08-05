@@ -2,7 +2,7 @@ const COUNTRY_NAMES = {
   "004": "Afghanistan",      "008": "Albania",                  "010": "Antarctica", "012": "Algeria",
   "024": "Angola",           "031": "Azerbaijan",
   "032": "Argentina",        "036": "Australia",                "040": "Austria",
-  "044": "Bahamas",          "048": "Bahrain",                  "050": "Bangladesh",
+  "044": "Bahamas",          "050": "Bangladesh",
   "051": "Armenia",          "056": "Belgium",
   "064": "Bhutan",           "068": "Bolivia",                  "070": "Bosnia and Herzegovina",
   "072": "Botswana",         "076": "Brazil",                   "084": "Belize",
