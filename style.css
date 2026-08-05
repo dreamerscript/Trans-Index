@@ -59,7 +59,7 @@
   --graticule: rgba(76,79,105,0.08); --sphere: #dce0e8;
 }
 
-:root[data-theme="afterglow"] {
+:root[data-theme="sylveon"] {
   --bg: #111421; --surface: #191d30; --surface2: #252b45;
   --border: rgba(205,227,255,0.12); --border2: rgba(205,227,255,0.27);
   --text: #e5edff; --text-muted: #b5c6e8; --text-dim: #7585ab;
@@ -208,7 +208,7 @@ header h1 { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weigh
 .theme-swatch-mocha { --swatch: linear-gradient(135deg, #1e1e2e 0 50%, #cba6f7 50%); }
 .theme-swatch-frappe { --swatch: linear-gradient(135deg, #303446 0 50%, #ca9ee6 50%); }
 .theme-swatch-latte { --swatch: linear-gradient(135deg, #eff1f5 0 50%, #8839ef 50%); }
-.theme-swatch-afterglow { --swatch: linear-gradient(135deg, #111421 0 50%, #f49ab4 50%); }
+.theme-swatch-sylveon { --swatch: linear-gradient(135deg, #111421 0 50%, #f49ab4 50%); }
 .theme-swatch-sepia { --swatch: linear-gradient(135deg, #f7edd9 0 50%, #76502e 50%); }
 .theme-swatch-high-contrast { --swatch: linear-gradient(135deg, #000 0 50%, #fff 50%); border: 1px solid #fff; }
 
