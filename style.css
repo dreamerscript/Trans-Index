@@ -114,9 +114,7 @@ header h1 { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weigh
 .source-note a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 2px; }
 .disclaimer { color: var(--text-dim); font-style: italic; }
 .no-data-msg { color: var(--text-muted); font-size: 12px; padding: 12px 0; font-family: 'IBM Plex Mono', monospace; }
-#map-credit { position: absolute; bottom: 20px; right: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; z-index: 5; }
-#map-credit a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 2px; }
-#map-legend { position: absolute; right: 20px; bottom: 58px; min-width: 176px; max-width: 260px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 10px; z-index: 5; font-family: 'IBM Plex Mono', monospace; }
+#map-legend { position: absolute; right: 20px; bottom: 20px; min-width: 176px; max-width: 260px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 10px; z-index: 5; font-family: 'IBM Plex Mono', monospace; }
 #map-legend:empty { display: none; }
 .legend-title { color: var(--text-muted); font-size: 10px; line-height: 1.4; margin-bottom: 8px; }
 .legend-row { display: grid; grid-template-columns: 12px 1fr; align-items: center; gap: 8px; color: var(--text-dim); font-size: 10px; line-height: 1.5; margin-top: 5px; }
@@ -153,7 +151,6 @@ header h1 { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weigh
   #panel-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
   .zoom-controls { bottom: calc(var(--drawer-peek) + 12px); left: 14px; }
   .zoom-btn { width: 44px; height: 44px; font-size: 20px; }
-  #map-credit { bottom: calc(var(--drawer-peek) + 12px); right: 14px; }
   #map-legend { bottom: calc(var(--drawer-peek) + 56px); right: 14px; }
 }
 
