@@ -17,6 +17,9 @@ Since data is gathered manually, inconsistencies may be present, therefore, this
 * Methodology
 * Data Sources
 * Reporting Inconsistencies
+* FAQ
+* Libraries Used
+* License
 
 ## Methodology
 
