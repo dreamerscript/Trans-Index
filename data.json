@@ -2460,5 +2460,50 @@
     "marriage":     "partial",
 	"adopt":        "partial",
     "note": "HRT and surgeries are available privately. Prison placement is determined by a case-by-basis. Marriage and adoption are restricted to traditional heterosexual couples."
+  },
+  "Japan": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "yes",
+    "legal_gender": "partial",
+    "nonbinary":    "no",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "partial",
+    "prison":       "partial",
+    "military":     "yes",
+    "marriage":     "partial",
+	"adopt":        "partial",
+    "note": "Genital surgery and a diagnosis are required for a legal gender indicator change. Gender affirming care is restricted to minors. Prison placements are determined by a case-by-case basis. Marriage and adoption are both limited to heterosexual couples."
+  },
+  "South Korea": {
+	"sentenced":    "no",
+    "mental":       "partial",
+    "legal_name":   "yes",
+    "legal_gender": "partial",
+    "nonbinary":    "no",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "partial",
+    "prison":       "partial",
+    "military":     "no",
+    "marriage":     "partial",
+	"adopt":        "partial",
+    "note": "Genital surgery and a diagnosis are required for a legal gender indicator change. Gender affirming care is restricted to minors. Prison placements are determined by a case-by-case basis. Marriage and adoption are both limited to heterosexual couples."
+  },
+  "Taiwan": {
+	"sentenced":    "no",
+    "mental":       "no",
+    "legal_name":   "unknown",
+    "legal_gender": "yes",
+    "nonbinary":    "no",
+    "hrt":          "yes",
+    "surgery":      "yes",
+    "minors":       "partial",
+    "prison":       "partial",
+    "military":     "yes",
+    "marriage":     "yes",
+	"adopt":        "yes",
+    "note": "Conditions for a legal gender change are ambiguous and unknown. Gender affirming care is restricted to minors. Prison placements are determined by a case-by-case basis."
   }
 }
