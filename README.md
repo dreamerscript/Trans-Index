@@ -1,4 +1,4 @@
-# TransIndex.org
+# [TransIndex.org](transindex.org)
 
 A free, open-source interactive world map for visualising transgender rights and legal recognition across countries.
 
@@ -68,7 +68,7 @@ If you encounter any inconsistencies or mistakes with the website or the informa
 2. Explain the problem, making sure to include as much detail as possible.
 3. Include sources, images, or any other type of additional information that could help
 
-Corrections are heavily appreciated. If you would like to contribute and fix these issues yourself by committing to the repository, feel free to do so! Any help is appreciated.
+Corrections are heavily appreciated. If you would like to contribute to this repository, please contact me in one of the methods listed at the end of this file. Any help is appreciated.
 
 ## FAQ
 
@@ -99,5 +99,8 @@ This project is licensed under the MIT License.
 See the LICENSE file for details.
 
 ---
+Contact Information:
+Email: [dreamerscript01@gmail.com](mailto:dreamerscript01@gmail.com) <br>
+Discord: @dreamerscript02
 
 Special thanks to anybody that contributes to this project!
