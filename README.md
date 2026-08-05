@@ -1,4 +1,4 @@
-# [TransIndex.org](transindex.org)
+# [TransIndex.org](https://transindex.org)
 
 A free, open-source interactive world map for visualising transgender rights and legal recognition across countries.
 
