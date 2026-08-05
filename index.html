@@ -55,7 +55,7 @@
           <option value="yes">Yes</option>
           <option value="partial">Partial / varies</option>
           <option value="no">No</option>
-          <option value="death_penalty">Death penalty</option>
+          <option value="death" hidden disabled>Death penalty</option>
           <option value="unknown">No data</option>
         </select>
       </label>
@@ -99,7 +99,7 @@
               <option value="yes">Yes</option>
               <option value="partial">Partial / varies</option>
               <option value="no">No</option>
-              <option value="death_penalty">Death penalty</option>
+              <option value="death" hidden disabled>Death penalty</option>
               <option value="unknown">No data</option>
             </select>
           </div>
@@ -126,6 +126,41 @@
         <span class="disclaimer">
 			Data compiled manually and may be innacurate or out of date. Contact details to report any issue may be found in the <a href="https://github.com/dreamerscript/Trans-Index" target="_blank" rel="bireferrer">Github</a> page.
 		</span>
+        <div class="theme-picker">
+          <button class="theme-trigger" id="theme-trigger" type="button" aria-label="Choose theme" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a9 9 0 0 0 0 18h1.8a1.8 1.8 0 0 0 0-3.6h-.9a1.8 1.8 0 0 1 0-3.6h1.8A5.4 5.4 0 0 0 20.1 8.4 5.4 5.4 0 0 0 14.7 3Z"></path>
+              <path d="M7.5 10.5h.01M9 6.75h.01M5.25 14.25h.01"></path>
+            </svg>
+            <span class="theme-trigger-label">Theme</span>
+          </button>
+          <div class="theme-menu" id="theme-menu" role="menu" aria-label="Choose theme">
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="dark" aria-checked="true">
+              <span class="theme-swatch theme-swatch-dark" aria-hidden="true"></span><span>Dark</span>
+            </button>
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="light" aria-checked="false">
+              <span class="theme-swatch theme-swatch-light" aria-hidden="true"></span><span>Light</span>
+            </button>
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="high-contrast" aria-checked="false">
+              <span class="theme-swatch theme-swatch-high-contrast" aria-hidden="true"></span><span>High contrast</span>
+            </button>
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="latte" aria-checked="false">
+              <span class="theme-swatch theme-swatch-latte" aria-hidden="true"></span><span>Latte</span>
+            </button>
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="frappe" aria-checked="false">
+              <span class="theme-swatch theme-swatch-frappe" aria-hidden="true"></span><span>Frappé</span>
+            </button>
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="mocha" aria-checked="false">
+              <span class="theme-swatch theme-swatch-mocha" aria-hidden="true"></span><span>Mocha</span>
+            </button>
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="afterglow" aria-checked="false">
+              <span class="theme-swatch theme-swatch-afterglow" aria-hidden="true"></span><span>Afterglow</span>
+            </button>
+            <button type="button" class="theme-option" role="menuitemradio" data-theme="sepia" aria-checked="false">
+              <span class="theme-swatch theme-swatch-sepia" aria-hidden="true"></span><span>Sepia</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

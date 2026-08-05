@@ -243,11 +243,24 @@ async function init() {
     });
   }
 
+  function updateStatusAvailability() {
+    const allowsDeathPenalty = activeQuestion === "sentenced";
+    [sDesktop, sMobile].forEach(statusSelect => {
+      if (!statusSelect) return;
+      const deathOption = statusSelect.querySelector('option[value="death"]');
+      if (deathOption) {
+        deathOption.hidden = !allowsDeathPenalty;
+        deathOption.disabled = !allowsDeathPenalty;
+      }
+      if (!allowsDeathPenalty && statusSelect.value === "death") statusSelect.value = "all";
+      statusSelect.disabled = activeQuestion === "all";
+    });
+  }
+
   function applyFilter() {
     activeQuestion = (qDesktop && qDesktop.value !== "all") ? qDesktop.value : (qMobile && qMobile.value !== "all") ? qMobile.value : "all";
+    updateStatusAvailability();
     activeStatus = (sDesktop && sDesktop.value !== "all") ? sDesktop.value : (sMobile && sMobile.value !== "all") ? sMobile.value : "all";
-    if (sDesktop) sDesktop.disabled = activeQuestion === "all";
-    if (sMobile) sMobile.disabled = activeQuestion === "all";
     recolor();
     updateLegend(activeQuestion);
     if (activeStatus !== "all" && activeQuestion !== "all") {
@@ -410,6 +423,51 @@ async function init() {
 }
 
 init();
+
+function initThemePicker() {
+  const trigger = document.getElementById("theme-trigger");
+  const menu = document.getElementById("theme-menu");
+  const options = menu ? [...menu.querySelectorAll(".theme-option")] : [];
+  if (!trigger || !menu || !options.length) return;
+
+  const savedTheme = localStorage.getItem("transindex-theme");
+  const supportedThemes = new Set(options.map(option => option.dataset.theme));
+
+  function closeMenu(restoreFocus = false) {
+    menu.classList.remove("is-open");
+    trigger.setAttribute("aria-expanded", "false");
+    if (restoreFocus) trigger.focus();
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme === "dark" ? "" : theme;
+    options.forEach(option => option.setAttribute("aria-checked", String(option.dataset.theme === theme)));
+    localStorage.setItem("transindex-theme", theme);
+  }
+
+  applyTheme(supportedThemes.has(savedTheme) ? savedTheme : "dark");
+
+  trigger.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("is-open");
+    trigger.setAttribute("aria-expanded", String(isOpen));
+    if (isOpen) options.find(option => option.getAttribute("aria-checked") === "true").focus();
+  });
+
+  options.forEach(option => option.addEventListener("click", () => {
+    applyTheme(option.dataset.theme);
+    closeMenu(true);
+  }));
+
+  document.addEventListener("click", event => {
+    if (!event.target.closest(".theme-picker")) closeMenu();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && menu.classList.contains("is-open")) closeMenu(true);
+  });
+}
+
+initThemePicker();
 
 // ─── MOBILE DRAWER ────────────────────────────────────────────────────────────
 
