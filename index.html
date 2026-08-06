@@ -5,9 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trans Rights World Map</title>
   <meta name="description" content="Visualise transgender rights and legal recognition around the world, country by country.">
+  <link rel="canonical" href="https://transindex.org/">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://transindex.org/">
+  <meta property="og:site_name" content="TransIndex.org">
   <meta property="og:title" content="Trans Rights World Map">
   <meta property="og:description" content="Visualise transgender rights and legal recognition around the world, country by country.">
+  <!-- Uses the project icon from the README. A 1200x630 og-image.png in the repo would
+       render better; swap this URL and set twitter:card to summary_large_image if you add one. -->
+  <meta property="og:image" content="https://github.com/user-attachments/assets/e06b78b9-8e0e-4373-b59c-0bbdf3a27813">
+  <meta property="og:image:alt" content="The TransIndex.org project icon.">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#0f0f14">
+  <!-- frame-ancestors/X-Frame-Options can't be set from a meta tag or GitHub Pages; see README. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -114,7 +128,7 @@
 
       <div class="source-note">
         <span class="disclaimer">
-			Data compiled manually and may be innacurate or out of date. More informationg on the <a href="https://github.com/dreamerscript/Trans-Index" target="_blank" rel="bireferrer">GitHub Project Page</a>.
+			Data compiled manually and may be inaccurate or out of date. More information on the <a href="https://github.com/dreamerscript/Trans-Index" target="_blank" rel="noopener noreferrer">GitHub Project Page</a>.
 		</span>
         <div class="theme-picker">
           <button class="theme-trigger" id="theme-trigger" type="button" aria-label="Choose theme" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu">
@@ -157,8 +171,8 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha384-su5kReKyYlIFrI62mbQRKXHzFobMa7BHp1cK6julLPbnYcCW9NIZKJiTODjLPeDh" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="rights.js"></script>
 <script src="map.js"></script>
 </body>
