@@ -77,6 +77,14 @@ const SHAPE_ALIAS = {
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 
+// data.json is community-contributed, so anything from it must be escaped before
+// it goes near innerHTML. Notes are free text and status values fall through
+// verbatim when they aren't one of the known keys.
+const ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+function esc(str) {
+  return String(str).replace(/[&<>"']/g, c => ESCAPES[c]);
+}
+
 function normalise(val, invert) {
   if (!val || val === "unknown") return "unknown";
   if (val === "death") return "death";
@@ -153,12 +161,12 @@ function showPanel(name, data) {
     const norm = normalise(d[r.key] || "unknown", r.invert);
     const col = norm === "good" ? "var(--yes)" : norm === "death" ? "var(--death-color)" : norm === "bad" ? "var(--no)" : norm === "partial" ? "var(--partial)" : "var(--unknown)";
     return `<div class="score-segment" style="background:${col}" title="${r.question}"></div>`;
-  }).join("")}</div>${d.note ? `<p class="right-note" style="margin-top:10px">${d.note}</p>` : ""}`;
+  }).join("")}</div>${d.note ? `<p class="right-note" style="margin-top:10px">${esc(d.note)}</p>` : ""}`;
   const rightsHTML = RIGHTS.map(r => {
     const val = d[r.key] || "unknown";
     const norm = normalise(val, r.invert);
     const cls = val === "death" ? "status-death" : norm === "good" ? "status-yes" : norm === "bad" ? "status-no" : norm === "partial" ? "status-partial" : "status-unknown";
-    return `<div class="right-item"><div class="right-question">${r.question}</div><span class="right-status ${cls}">${STATUS_LABEL[val] || val}</span></div>`;
+    return `<div class="right-item"><div class="right-question">${r.question}</div><span class="right-status ${cls}">${esc(STATUS_LABEL[val] || val)}</span></div>`;
   }).join("");
   document.getElementById("panel-rights").innerHTML = `<div style="padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:4px">${scoreHTML}</div>${rightsHTML}`;
   if (window._openDrawer) window._openDrawer();
